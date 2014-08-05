@@ -11,5 +11,4 @@ def vector_to_matrices(vector, sizes):
     return matrices
 
 def matrices_to_vector(matrices):
-    #return np.hstack([m.getA1() for m in matrices])
     return np.hstack(matrices)
