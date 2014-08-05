@@ -116,7 +116,7 @@ def main():
     tries = 20
     success = 0
 
-    for _ in range(tries):
+    for i in range(tries):
         #for x, y in trainset:
         #    print nn.run(x)
 
@@ -135,6 +135,7 @@ def main():
         print "c:", c
         print
         if a==b: success+=1
+        print success, "of", i, "tries"
 
     print success, "of", tries, "tries."
 
