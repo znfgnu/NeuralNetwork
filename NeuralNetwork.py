@@ -35,7 +35,7 @@ class NeuralLayer:
 
 class NeuralNetwork:
     def __init__(self, size):
-        self._mylambda = .001
+        self._mylambda = .00001
         self._layers = []
         for ins, outs in zip(size[:-1], size[1:]):
             l = NeuralLayer(ins, outs)
@@ -104,6 +104,7 @@ class NeuralNetwork:
         initial_theta = ut.matrices_to_vector([l._theta for l in self._layers])
         c(initial_theta)
         optimum_theta = opt.fmin_bfgs(c, initial_theta, fprime=d, disp=False)
+        print optimum_theta
 
 def main():
     trainset = [
@@ -117,10 +118,11 @@ def main():
     success = 0
 
     for i in range(tries):
+        print success, "of", i, "tries"
         #for x, y in trainset:
         #    print nn.run(x)
 
-        nn = NeuralNetwork((2,2,1))
+        nn = NeuralNetwork((2,3,1))
         nn.train(trainset)
         #for x, y in trainset:
         #    res = nn.run(x)
@@ -135,7 +137,6 @@ def main():
         print "c:", c
         print
         if a==b: success+=1
-        print success, "of", i, "tries"
 
     print success, "of", tries, "tries."
 
