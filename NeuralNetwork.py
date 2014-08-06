@@ -35,7 +35,7 @@ class NeuralLayer:
 
 class NeuralNetwork:
     def __init__(self, size):
-        self._mylambda = .00001
+        self._mylambda = .0#0001
         self._layers = []
         for ins, outs in zip(size[:-1], size[1:]):
             l = NeuralLayer(ins, outs)

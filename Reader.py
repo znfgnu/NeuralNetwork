@@ -5,7 +5,7 @@ import csv
 import time
 
 def main():
-    n = nn.NeuralNetwork((5,10,10,4))
+    n = nn.NeuralNetwork((5,6,4))
 
     trainset = []
     testset = []
@@ -18,16 +18,25 @@ def main():
         'High':[0,0,0,1],
          }
 
+    d2 = {
+        (1,0,0,0):'Very Low',
+        (0,1,0,0):'Low',
+        (0,0,1,0):'Middle',
+        (0,0,0,1):'High',
+         }
+
+
     with open("training_data.csv") as f:
         rdr = csv.reader(f)
         for line in rdr:
             out = d[line[-1]]
             inp = map(float, map(lambda s: s.replace(',','.'),line[:-1]))
             trainset.append((inp,out))
+
     now = time.time()
     n.train(trainset)
     after = time.time()
-    print "Time:", after-now
+    print "Training time:", after-now
 
     with open("test_data.csv") as f:
         success = 0
@@ -35,13 +44,14 @@ def main():
         rdr = csv.reader(f)
         for line in rdr:
             total+=1
-            print line
+            #print line
             out = d[line[-1]]
             inp = map(float, map(lambda s: s.replace(',','.'),line[:-1]))
-            res = [int(x.round()) for x in n.run(inp)]
+            r = n.run(inp)
+            res = [1 if x==r.max() else 0 for x in r]
             if res==out: success+=1
-            else: print res, "instead of", out
-            print success, "of", total
+            else: print d2[tuple(res)], "instead of", d2[tuple(out)]
+    print success, "of", total
 
 if __name__=="__main__":
     main()
